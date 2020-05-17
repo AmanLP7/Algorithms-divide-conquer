@@ -1,45 +1,51 @@
 # Importing text file data
 numbers = []
-with open('QuickSort.txt', 'r') as IntegerArray:
+with open('input_dgrcode_20_1000000.txt', 'r') as IntegerArray:
   for number in IntegerArray:
-    numbers.append(number.strip())
+    numbers.append(int(number.strip()))
 
-
-# Function to perform quick sort swaps
+# Function to perform quicksort swaps given an array
 '''
-Input: Takes and array and index of the pivot element as input
-Output: Returns partitioned array with left sub-array less than pivot
-        and right sub-array greater than pivot
+Input: Array, start index, length of array
+Output: Sorted array, number of comparisons and index of split
 '''
-def quickSortSwap(array):
-  pivot = array[0]
-  pivotIndex = 1
-  numberOfComparisons = len(array)-1
-  for comparisonIndex in range(1, len(array)):
-    if pivot > array[comparisonIndex]:
-      array[pivotIndex], array[comparisonIndex] = array[comparisonIndex], array[pivotIndex]
-      pivotIndex += 1
-  array[0], array[pivotIndex-1] = array[pivotIndex-1], array[0]
-  return (array, pivotIndex-1, numberOfComparisons)
+def quickSortSwaps(array, firstIndex, lengthOfArray):
+
+  pivotElement = array[firstIndex]
+  partitionBoundary = firstIndex + 1
+
+  for processedElementsBoundary in range(firstIndex + 1, lengthOfArray):
+    if array[processedElementsBoundary] < pivotElement:
+      array[partitionBoundary], array[processedElementsBoundary] = array[processedElementsBoundary], array[partitionBoundary]
+      partitionBoundary += 1
+
+  array[partitionBoundary - 1], array[firstIndex] = array[firstIndex], array[partitionBoundary - 1]
+  splitIndex = partitionBoundary - 1
+
+  return array, splitIndex, lengthOfArray - 1
 
 
-
-# Function to count number of comparison while performing quick sort
+# Function to count total number of swaps while performing quick sort
 '''
-Input: Takes an array of numbers
-Output: Return number of total comparisons
+Input: Array
+Output: Total number of comparisons
 '''
 def countNumberOfComparisons(array):
-  lengthArray = len(array)
-  if lengthArray <= 1:
-    return (array,0)
-  else:
-     array, splitIndex, comparisons = quickSortSwap(array)
-     array[:splitIndex], leftComparisons = countNumberOfComparisons(array[:splitIndex])
-     array[splitIndex+1:], rightComparisons = countNumberOfComparisons(array[splitIndex+1:])
-     totalComparisons = comparisons + leftComparisons + rightComparisons
 
-     return (array, totalComparisons)
+  lengthArray = len(array)
+  # Base case
+  if lengthArray <= 1:
+    return (array, 0)
+  else:
+    array, splitIndex, comparisons = quickSortSwaps(array, 0, lengthArray)
+    array[:splitIndex], leftComparisons = countNumberOfComparisons(array[:splitIndex])
+    array[splitIndex + 1:], rightComparisons = countNumberOfComparisons((array[splitIndex + 1:]))
+
+    totalComparisons = comparisons + leftComparisons + rightComparisons
+
+  return (array, totalComparisons)
+
+
 
 
 if __name__ == "__main__":
