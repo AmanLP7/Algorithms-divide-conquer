@@ -11,6 +11,7 @@ Output: Sorted array, number of comparisons and index of split
 '''
 def quickSortSwaps(array, firstIndex, lengthOfArray):
 
+  array[firstIndex], array[lengthOfArray - 1] = array[lengthOfArray - 1], array[firstIndex]
   pivotElement = array[firstIndex]
   partitionBoundary = firstIndex + 1
 
