@@ -1,6 +1,6 @@
 # Importing text file data
 numbers = []
-with open('input_dgrcode_20_1000000.txt', 'r') as IntegerArray:
+with open('QuickSort.txt', 'r') as IntegerArray:
   for number in IntegerArray:
     numbers.append(int(number.strip()))
 
